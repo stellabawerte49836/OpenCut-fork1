@@ -18,7 +18,7 @@ services:
       - key: UPSTASH_REDIS_REST_URL
         fromService:
           name: opencut-redis
-          type: redis # Added required type field
+          type: redis
           property: connectionString
       - key: UPSTASH_REDIS_REST_TOKEN
         value: your-redis-token-here # Replace with actual token or set in Render dashboard
@@ -29,19 +29,13 @@ services:
     healthCheckPath: /health # Optional: Add a health check endpoint in your app
     autoDeploy: false # Set to true if you want automatic deploys on git push
 
-  - type: pserv
+  - type: database
     name: opencut-db
-    env: docker
+    databaseName: opencut
+    user: opencut
     region: oregon # Match the web service region
     plan: free # Adjust based on your needs
-    dockerfilePath: ./Dockerfile.postgres
-    envVars:
-      - key: POSTGRES_USER
-        value: opencut
-      - key: POSTGRES_PASSWORD
-        value: opencutthegoat
-      - key: POSTGRES_DB
-        value: opencut
+    ipAllowList: [] # Allow access from web service
 
   - type: redis
     name: opencut-redis
