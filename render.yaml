@@ -4,7 +4,7 @@ services:
     env: docker
     dockerfilePath: ./Dockerfile
     region: oregon # Change to your preferred region (e.g., frankfurt, singapore)
-    plan: free # Adjust based on your needs (starter, standard, pro, etc.)
+    plan: free # Adjust based on your needs (free, standard, pro)
     numInstances: 1
     envVars:
       - key: NODE_ENV
@@ -12,9 +12,7 @@ services:
       - key: PORT
         value: 3000
       - key: DATABASE_URL
-        fromDatabase:
-          name: opencut-db
-          property: connectionString
+        value: postgresql://opencut:opencutthegoat@opencut-db:5432/opencut # Update after deployment
       - key: UPSTASH_REDIS_REST_URL
         fromService:
           name: opencut-redis
@@ -29,13 +27,23 @@ services:
     healthCheckPath: /health # Optional: Add a health check endpoint in your app
     autoDeploy: false # Set to true if you want automatic deploys on git push
 
-  - type: database
+  - type: pserv
     name: opencut-db
-    databaseName: opencut
-    user: opencut
+    env: docker
     region: oregon # Match the web service region
     plan: free # Adjust based on your needs
-    ipAllowList: [] # Allow access from web service
+    dockerfilePath: ./Dockerfile.postgres
+    envVars:
+      - key: POSTGRES_USER
+        value: opencut
+      - key: POSTGRES_PASSWORD
+        value: opencutthegoat
+      - key: POSTGRES_DB
+        value: opencut
+    disk:
+      name: postgres-data
+      mountPath: /var/lib/postgresql/data
+      sizeGB: 10 # Adjust based on your needs
 
   - type: redis
     name: opencut-redis
