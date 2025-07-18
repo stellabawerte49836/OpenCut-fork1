@@ -1,0 +1,49 @@
+services:
+  - type: web
+    name: opencut-web
+    env: docker
+    dockerfilePath: ./Dockerfile
+    region: oregon # Change to your preferred region (e.g., frankfurt, singapore)
+    plan: starter # Adjust based on your needs (starter, standard, pro, etc.)
+    numInstances: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: opencut-db
+          property: connectionString
+      - key: UPSTASH_REDIS_REST_URL
+        fromService:
+          name: opencut-redis
+          property: connectionString
+      - key: UPSTASH_REDIS_REST_TOKEN
+        value: justredistokensaygex69
+      - key: BETTER_AUTH_SECRET
+        generateValue: true # Render will generate a secure random string
+      - key: BETTER_AUTH_URL
+        value: https://your-app-name.onrender.com # Replace with your Render app URL
+    healthCheckPath: /health # Optional: Add a health check endpoint in your app
+    autoDeploy: false # Set to true if you want automatic deploys on git push
+
+  - type: pserv
+    name: opencut-db
+    env: docker
+    region: oregon # Match the web service region
+    plan: starter # Adjust based on your needs
+    dockerfilePath: ./Dockerfile.postgres # See below for this Dockerfile
+    envVars:
+      - key: POSTGRES_USER
+        value: opencut
+      - key: POSTGRES_PASSWORD
+        value: opencutthegoat
+      - key: POSTGRES_DB
+        value: opencut
+
+  - type: redis
+    name: opencut-redis
+    region: oregon # Match the web service region
+    plan: starter # Adjust based on your needs
+    ipAllowList: [] # Allow access from web service
