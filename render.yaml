@@ -4,7 +4,7 @@ services:
     env: docker
     dockerfilePath: ./Dockerfile
     region: oregon # Change to your preferred region (e.g., frankfurt, singapore)
-    plan: starter # Adjust based on your needs (starter, standard, pro, etc.)
+    plan: free # Adjust based on your needs (starter, standard, pro, etc.)
     numInstances: 1
     envVars:
       - key: NODE_ENV
@@ -18,9 +18,10 @@ services:
       - key: UPSTASH_REDIS_REST_URL
         fromService:
           name: opencut-redis
+          type: redis # Added required type field
           property: connectionString
       - key: UPSTASH_REDIS_REST_TOKEN
-        value: justredistokensaygex69
+        value: your-redis-token-here # Replace with actual token or set in Render dashboard
       - key: BETTER_AUTH_SECRET
         generateValue: true # Render will generate a secure random string
       - key: BETTER_AUTH_URL
@@ -32,8 +33,8 @@ services:
     name: opencut-db
     env: docker
     region: oregon # Match the web service region
-    plan: starter # Adjust based on your needs
-    dockerfilePath: ./Dockerfile.postgres # See below for this Dockerfile
+    plan: free # Adjust based on your needs
+    dockerfilePath: ./Dockerfile.postgres
     envVars:
       - key: POSTGRES_USER
         value: opencut
@@ -45,5 +46,5 @@ services:
   - type: redis
     name: opencut-redis
     region: oregon # Match the web service region
-    plan: starter # Adjust based on your needs
+    plan: free # Adjust based on your needs
     ipAllowList: [] # Allow access from web service
