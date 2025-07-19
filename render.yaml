@@ -13,7 +13,7 @@ services:
         value: 3000
       - key: DATABASE_URL
         value: postgresql://opencut:XiklTaFY1Sf8W7QcLmaLQhTAHsN9XO0V@dpg-d1tf7mbuibrs73feiong-a/opencut # Internal connection string
-      - key: UPSTASH_REDIS_REST_URL
+      - key: redis://red-d1tffe2dbo4c73dhrn0g:6379
         fromService:
           name: opencut-redis
           type: redis
