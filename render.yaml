@@ -3,8 +3,8 @@ services:
     name: opencut-web
     env: docker
     dockerfilePath: ./Dockerfile
-    region: oregon # Change to your preferred region (e.g., frankfurt, singapore)
-    plan: free # Adjust based on your needs (free, standard, pro)
+    region: singapore # Match the database region (Singapore)
+    plan: free # Explicitly set to free tier
     numInstances: 1
     envVars:
       - key: NODE_ENV
@@ -12,14 +12,14 @@ services:
       - key: PORT
         value: 3000
       - key: DATABASE_URL
-        value: postgresql://opencut:opencutthegoat@opencut-db:5432/opencut # Update after deployment
+        value: postgresql://opencut:XiklTaFY1Sf8W7QcLmaLQhTAHsN9XO0V@dpg-d1tf7mbuibrs73feiong-a/opencut # Internal connection string
       - key: UPSTASH_REDIS_REST_URL
         fromService:
           name: opencut-redis
           type: redis
           property: connectionString
       - key: UPSTASH_REDIS_REST_TOKEN
-        value: your-redis-token-here # Replace with actual token or set in Render dashboard
+        value: absolutesaygex69 # Replace with actual token or set in Render dashboard
       - key: BETTER_AUTH_SECRET
         generateValue: true # Render will generate a secure random string
       - key: BETTER_AUTH_URL
@@ -27,26 +27,8 @@ services:
     healthCheckPath: /health # Optional: Add a health check endpoint in your app
     autoDeploy: false # Set to true if you want automatic deploys on git push
 
-  - type: pserv
-    name: opencut-db
-    env: docker
-    region: oregon # Match the web service region
-    plan: free # Adjust based on your needs
-    dockerfilePath: ./Dockerfile.postgres
-    envVars:
-      - key: POSTGRES_USER
-        value: opencut
-      - key: POSTGRES_PASSWORD
-        value: opencutthegoat
-      - key: POSTGRES_DB
-        value: opencut
-    disk:
-      name: postgres-data
-      mountPath: /var/lib/postgresql/data
-      sizeGB: 10 # Adjust based on your needs
-
   - type: redis
     name: opencut-redis
-    region: oregon # Match the web service region
-    plan: free # Adjust based on your needs
+    region: singapore # Match the database region (Singapore)
+    plan: free # Explicitly set to free tier
     ipAllowList: [] # Allow access from web service
