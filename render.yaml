@@ -23,7 +23,7 @@ services:
       - key: BETTER_AUTH_SECRET
         generateValue: true # Render will generate a secure random string
       - key: BETTER_AUTH_URL
-        value: https://your-app-name.onrender.com # Replace with your Render app URL
+        value: https://opencut-fork1.onrender.com/ # Replace with your Render app URL
     healthCheckPath: /health # Optional: Add a health check endpoint in your app
     autoDeploy: false # Set to true if you want automatic deploys on git push
 
