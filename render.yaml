@@ -13,13 +13,13 @@ services:
         value: 3000
       - key: DATABASE_URL
         value: postgresql://opencut:XiklTaFY1Sf8W7QcLmaLQhTAHsN9XO0V@dpg-d1tf7mbuibrs73feiong-a/opencut # Internal connection string
-      - key: redis://red-d1tffe2dbo4c73dhrn0g:6379
+      - key: UPSTASH_REDIS_REST_URL
         fromService:
           name: opencut-redis
           type: redis
           property: connectionString
       - key: UPSTASH_REDIS_REST_TOKEN
-        value: absolutesaygex69 # Replace with actual token or set in Render dashboard
+        value: redis://red-d1tffe2dbo4c73dhrn0g:6379 # Replace with actual token or set in Render dashboard
       - key: BETTER_AUTH_SECRET
         generateValue: true # Render will generate a secure random string
       - key: BETTER_AUTH_URL
